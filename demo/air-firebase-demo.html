@@ -1,0 +1,95 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<link rel="import" href="../../firebase-element/firebase-collection.html">
+<link rel="import" href="../../firebase-element/firebase-document.html">
+
+<link rel="import" href="../../paper-input/paper-input.html">
+<link rel="import" href="../../iron-icons/iron-icons.html">
+<link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+
+<!--
+
+The `air-firebase-demo` provides
+
+@group Demo Elements
+@element user-form
+-->
+
+<dom-module id="air-firebase-demo">
+
+    <style>
+        :host {
+            display: block;
+        }
+
+    </style>
+    <template>
+        <firebase-collection data="{{data}}"
+                             location="https://fiveelements.firebaseio.com/users">
+        </firebase-collection>
+
+        <firebase-document log
+                           location="https://fiveelements.firebaseio.com/users/1"
+                           data="{{user}}">
+        </firebase-document>
+
+        <template is="dom-repeat" items="{{data}}">
+            <ul>
+                <li>
+                    <span>
+                        <span>[[item.firstname]]</span>, <span>[[item.lastname]]</span>
+                    </span>
+                    <paper-icon-button icon="delete" on-tap="_deleteName"></paper-icon-button>
+                </li>
+            </ul>
+        </template>
+
+        <paper-input label="Add Name" value="{{addValue}}" required>
+            <paper-icon-button suffix icon="save" on-tap="_addName"></paper-icon-button>
+        </paper-input>
+
+
+        <paper-input label="firstname" value="{{user.firstname}}" required></paper-input>
+        <paper-input label="lastname" value="{{user.lastname}}" required></paper-input>
+        <paper-input label="email" value="{{user.email}}" required></paper-input>
+        <paper-icon-button suffix icon="clear" on-tap="_saveUser"></paper-icon-button>
+
+    </template>
+</dom-module>
+
+<script>
+    (function () {
+        'use strict';
+
+        Polymer({
+            is: 'air-firebase-demo',
+
+            properties: {
+                data: {
+                    type: Object,
+                    notity: true
+                },
+                user: {
+                    type: Object,
+                    notify: true
+                },
+                addValue: {
+                    type: String,
+                    notity: true
+                }
+            },
+            _addName: function () {
+                console.dir(this.data);
+                this.push('data', {firstname: this.addValue});
+                this.addValue = null;
+            },
+            _deleteName: function (e) {
+                console.dir(e.model.item);
+            },
+            _saveUser: function () {
+                console.dir(this.user);
+            }
+
+        });
+    })();
+</script>
