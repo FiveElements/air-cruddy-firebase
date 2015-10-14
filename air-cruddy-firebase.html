@@ -91,6 +91,7 @@ The `air-cruddy-firebase` provides
 
         _applyLocalDataChanges: function(change) {
             var pathFragments = change.path.split('.');
+            console.log('_applyLocalDataChanges', pathFragments);
 
             if (pathFragments.length === 1) {
                 this._updateRemoteDocument();
@@ -110,6 +111,7 @@ The `air-cruddy-firebase` provides
         entityGet: function(entityId) {
 
         },
+
         save:function() {
 
         }
