@@ -1,0 +1,123 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../firebase-element/firebase-query-behavior.html">
+
+
+<!--
+
+The `air-cruddy-firebase` provides  
+
+@group air-cruddy-cloudy Elements
+@element air-cruddy-firebase
+@demo demo/index.html
+-->
+
+<script>
+
+    Polymer({
+        is: 'air-cruddy-firebase',
+
+        behaviors: [
+            Polymer.FirebaseQueryBehavior
+        ],
+
+        properties: {
+            /**
+             * Firebase Query object corresponding to `location`.
+             */
+            query: {
+                type: Object,
+                notify: true,
+                computed: '_computeQuery(location, entityId)',
+                observer: '_queryChanged'
+            },
+
+            /**
+             * The `data` object mapped to `location`.
+             */
+            data: {
+                type: Object,
+                notify: true
+            },
+
+            entityId: {
+                type: String,
+                notify: true,
+                reflectToAttribute: true
+            }
+        },
+
+        listeners: {
+            'firebase-value': '_onFirebaseValue'
+        },
+
+
+        _updateRemoteDocument: function() {
+            this._log('Updating remote document');
+            this.query.update(this.dataAsObject);
+        },
+
+        _setRemoteDocumentChild: function(key, value) {
+            this._log('Setting child "' + key + '" to', value);
+            this.query.child(key).set(value);
+        },
+
+        _removeRemoteDocumentChild: function(key) {
+            this._log('Removing child "' + key + '"');
+            this.query.child(key).remove();
+        },
+
+        // --- local Apis
+        // --- ---------------------------------
+        _computeQuery: function(location, entityId) {
+            if (!location || !entityId) {
+                return;
+            }
+            var locationEnt = location + '/' + entityId;
+            return new Firebase(locationEnt);
+        },
+
+        _onFirebaseValue: function(event) {
+            var snapshot =  event.detail.val();
+            var key =  event.detail.key();
+            console.log('Get entity', key, ':', snapshot);
+            this._applyRemoteDataChange(function() {
+                this.set('data', snapshot);
+            });
+        },
+
+        // --- firebase-query-behaviours Apis
+        // --- ---------------------------------
+
+        _applyLocalDataChanges: function(change) {
+            var pathFragments = change.path.split('.');
+
+            if (pathFragments.length === 1) {
+                this._updateRemoteDocument();
+                return;
+            }
+
+            this._setRemoteDocumentChild(
+                    pathFragments[1],
+                    change.base[pathFragments[1]]
+            );
+        },
+
+
+        // --- air-cruddy-cloudy Apis
+        // --- ------------------------
+
+        entityGet: function(entityId) {
+
+        },
+        save:function() {
+
+        }
+
+
+        // --- Other
+        // --- ---------------------
+
+
+    });
+</script>

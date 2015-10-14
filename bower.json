@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "description": "An element that manage CRUD connectivity",
-  "main": "air-firebase.html",
+  "main": "air-cruddy-firebase.html",
   "author": [
     "The Five Elements Authors"
   ],

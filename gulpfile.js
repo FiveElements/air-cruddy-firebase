@@ -42,7 +42,7 @@ gulp.task('serve',   function () {
         // Note: this uses an unsigned certificate which on first access
         //       will present a certificate warning in the browser.
         // https: true,
-        startPath: "/air-firebase/demo/index.html",
+        startPath: "/air-cruddy-firebase/demo/index.html",
         server: {
             baseDir: ['../.'],
             directory: true

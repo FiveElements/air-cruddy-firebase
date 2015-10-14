@@ -1,5 +1,7 @@
 <link rel="import" href="../../polymer/polymer.html">
 
+<link rel="import" href="../air-cruddy-firebase.html">
+
 <link rel="import" href="../../firebase-element/firebase-collection.html">
 <link rel="import" href="../../firebase-element/firebase-document.html">
 
@@ -28,10 +30,10 @@ The `air-firebase-demo` provides
                              location="https://fiveelements.firebaseio.com/users">
         </firebase-collection>
 
-        <firebase-document log
-                           location="https://fiveelements.firebaseio.com/users/1"
+        <air-cruddy-firebase id="cruddy"
+                           location="https://fiveelements.firebaseio.com/users" entity-id="1"
                            data="{{user}}">
-        </firebase-document>
+        </air-cruddy-firebase>
 
         <template is="dom-repeat" items="{{data}}">
             <ul>
@@ -51,9 +53,9 @@ The `air-firebase-demo` provides
 
         <paper-input label="firstname" value="{{user.firstname}}" required></paper-input>
         <paper-input label="lastname" value="{{user.lastname}}" required></paper-input>
-        <paper-input label="email" value="{{user.email}}" type="email" autoValidate></paper-input>
+        <paper-input label="email" value="{{user.email}}" type="email" auto-validates></paper-input>
         
-        <paper-icon-button suffix icon="clear" on-tap="_saveUser"></paper-icon-button>
+        <paper-icon-button suffix icon="done" on-tap="_saveUser"></paper-icon-button>
 
     </template>
 </dom-module>
@@ -89,6 +91,7 @@ The `air-firebase-demo` provides
             },
             _saveUser: function () {
                 console.dir(this.user);
+                this.$.cruddy.save();
             }
 
         });
