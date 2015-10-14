@@ -51,7 +51,8 @@ The `air-firebase-demo` provides
 
         <paper-input label="firstname" value="{{user.firstname}}" required></paper-input>
         <paper-input label="lastname" value="{{user.lastname}}" required></paper-input>
-        <paper-input label="email" value="{{user.email}}" required></paper-input>
+        <paper-input label="email" value="{{user.email}}" type="email" autoValidate></paper-input>
+        
         <paper-icon-button suffix icon="clear" on-tap="_saveUser"></paper-icon-button>
 
     </template>
