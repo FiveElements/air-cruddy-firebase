@@ -51,7 +51,8 @@ The `air-cruddy-firebase` provides
             'firebase-value': '_onFirebaseValue'
         },
 
-
+        // --- FireBase Command Apis
+        // --- ---------------------------------
         _updateRemoteDocument: function() {
             this._log('Updating remote document');
             this.query.update(this.dataAsObject);
@@ -88,10 +89,14 @@ The `air-cruddy-firebase` provides
 
         // --- firebase-query-behaviours Apis
         // --- ---------------------------------
-
         _applyLocalDataChanges: function(change) {
             var pathFragments = change.path.split('.');
-            console.log('_applyLocalDataChanges', pathFragments);
+          console.log('No autoupdate', pathFragments);
+        },
+
+        __applyLocalDataChanges: function(change) {
+            var pathFragments = change.path.split('.');
+            console.log('_applyLocalDataChanges', pathFragments, pathFragments.length );
 
             if (pathFragments.length === 1) {
                 this._updateRemoteDocument();
@@ -109,11 +114,11 @@ The `air-cruddy-firebase` provides
         // --- ------------------------
 
         entityGet: function(entityId) {
-
+            this.entityId = entityId;
         },
 
         save:function() {
-
+            this._updateRemoteDocument();
         }
 
 

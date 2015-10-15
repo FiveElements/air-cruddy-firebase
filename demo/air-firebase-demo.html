@@ -2,12 +2,15 @@
 
 <link rel="import" href="../air-cruddy-firebase.html">
 
-<link rel="import" href="../../firebase-element/firebase-collection.html">
-<link rel="import" href="../../firebase-element/firebase-document.html">
+
+<link rel="import" href="../../iron-icons/iron-icons.html">
 
 <link rel="import" href="../../paper-input/paper-input.html">
-<link rel="import" href="../../iron-icons/iron-icons.html">
 <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../paper-card/paper-card.html">
+
+<link rel="import" href="../../firebase-element/firebase-collection.html">
+<link rel="import" href="../../firebase-element/firebase-document.html">
 
 <!--
 
@@ -24,6 +27,17 @@ The `air-firebase-demo` provides
             display: block;
         }
 
+        #cards {
+        @apply(--layout-vertical);
+        @apply(--center-justified);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        paper-card {
+            margin: 25px;
+        }
     </style>
     <template>
         <firebase-collection data="{{data}}"
@@ -31,32 +45,42 @@ The `air-firebase-demo` provides
         </firebase-collection>
 
         <air-cruddy-firebase id="cruddy"
-                           location="https://fiveelements.firebaseio.com/users" entity-id="1"
-                           data="{{user}}">
+                             location="https://fiveelements.firebaseio.com/users" entity-id="1"
+                             data="{{user}}">
         </air-cruddy-firebase>
 
-        <template is="dom-repeat" items="{{data}}">
-            <ul>
-                <li>
+        <div id="cards">
+
+            <paper-card heading="List of Users">
+                <template is="dom-repeat" items="{{data}}">
+                    <ul>
+                        <li>
                     <span>
                         <span>[[item.firstname]]</span>, <span>[[item.lastname]]</span>
                     </span>
-                    <paper-icon-button icon="delete" on-tap="_deleteName"></paper-icon-button>
-                </li>
-            </ul>
-        </template>
+                            <paper-icon-button icon="delete" on-tap="_deleteName"></paper-icon-button>
+                        </li>
+                    </ul>
+                </template>
+            </paper-card>
 
-        <paper-input label="Add Name" value="{{addValue}}" required>
-            <paper-icon-button suffix icon="save" on-tap="_addName"></paper-icon-button>
-        </paper-input>
+            <paper-card heading="Adding a User">
+
+                <paper-input label="Add Name" value="{{addValue}}" required>
+                    <paper-icon-button suffix icon="save" on-tap="_addName"></paper-icon-button>
+                </paper-input>
+
+            </paper-card>
 
 
-        <paper-input label="firstname" value="{{user.firstname}}" required></paper-input>
-        <paper-input label="lastname" value="{{user.lastname}}" required></paper-input>
-        <paper-input label="email" value="{{user.email}}" type="email" auto-validates></paper-input>
-        
-        <paper-icon-button suffix icon="done" on-tap="_saveUser"></paper-icon-button>
+            <paper-card heading="Editing Users">
+                <paper-input label="firstname" value="{{user.firstname}}" required></paper-input>
+                <paper-input label="lastname" value="{{user.lastname}}" required></paper-input>
+                <paper-input label="email" value="{{user.email}}" type="email" auto-validate></paper-input>
 
+                <paper-icon-button suffix icon="done" on-tap="_saveUser"></paper-icon-button>
+            </paper-card>
+        </div>
     </template>
 </dom-module>
 
